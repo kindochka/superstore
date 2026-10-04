@@ -1,17 +1,11 @@
 SELECT 
-    f1.product_name,
-    f1.region,
-    f1.total_amount,
-    (
-        SELECT 
-            MIN(f2.total_amount)
-        FROM 
-            flourmills_sales f2
-        WHERE 
-            f2.region = f1.region
-    ) AS region_min_amount
-FROM 
-    flourmills_sales f1;
+    c.customer_name,
+    COUNT(o.order_id) AS order_count
+FROM customers c
+LEFT JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.customer_name;
+
+
 git add .
-git commit -m "uloha8"
+git commit -m "Add task 8 solution"
 git push

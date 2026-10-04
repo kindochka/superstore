@@ -1,20 +1,13 @@
-SELECT DISTINCT 
-    f1.product_category
-FROM 
-    flourmills_sales f1
-WHERE 
-    EXISTS (
-        SELECT 
-            1
-        FROM 
-            flourmills_sales f2
-        WHERE 
-            f2.product_category = f1.product_category
-        GROUP BY 
-            f2.product_category
-        HAVING 
-            COUNT(DISTINCT f2.region) > 3
-    );
+SELECT 
+    c.region,
+    SUM(o.sales) AS total_sales,
+    AVG(o.discount) AS avg_discount,
+    COUNT(o.order_id) AS order_count
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.region;
+
+
 git add .
-git commit -m "uloha11"
+git commit -m "Add task 11 solution"
 git push

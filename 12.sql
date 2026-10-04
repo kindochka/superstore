@@ -1,17 +1,11 @@
 SELECT 
-    f1.*
-FROM 
-    flourmills_sales f1
-WHERE 
-    EXISTS (
-        SELECT 
-            1
-        FROM 
-            flourmills_sales f2
-        WHERE 
-            f2.region = f1.region
-            AND EXTRACT(YEAR FROM f2.sale_date) = 2024
-    );
+    c.region,
+    COUNT(CASE WHEN o.sales > 1000 THEN 1 END) AS high_value_orders,
+    COUNT(CASE WHEN o.sales <= 1000 THEN 1 END) AS low_value_orders
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.region;
+
 git add .
-git commit -m "uloha12"
+git commit -m "Add task 12 solution"
 git push

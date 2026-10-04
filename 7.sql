@@ -1,18 +1,11 @@
 SELECT 
-    f1.product_name,
-    f1.product_category,
-    f1.total_amount
-FROM 
-    flourmills_sales f1
-WHERE 
-    f1.total_amount > (
-        SELECT 
-            AVG(f2.total_amount)
-        FROM 
-            flourmills_sales f2
-        WHERE 
-            f2.product_category = f1.product_category
-    );
+    c.region,
+    SUM(o.sales) AS total_sales
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.region;
+
+
 git add .
-git commit -m "uloha7"
+git commit -m "Add task 7 solution"
 git push

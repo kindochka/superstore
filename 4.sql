@@ -1,9 +1,11 @@
 SELECT 
-    product_name,
-    total_amount,
-    total_amount / (SELECT SUM(total_amount) FROM flourmills_sales) AS amount_share
-FROM 
-    flourmills_sales;
+    c.region,
+    COALESCE(SUM(o.sales), 0) AS total_sales
+FROM customers c
+LEFT JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.region;
+
+
 git add .
-git commit -m "uloha4"
+git commit -m "Add task 4 solution"
 git push
