@@ -1,11 +1,9 @@
-SELECT 
-    c.region,
-    COALESCE(SUM(o.sales), 0) AS total_sales
-FROM customers c
-LEFT JOIN orders o ON c.customer_id = o.customer_id
-GROUP BY c.region;
+CREATE INDEX idx_orders_customer_id
+ON orders(customer_id);
 
-
+SELECT *
+FROM orders
+WHERE customer_id = 'C001';
 git add .
-git commit -m "Add task 4 solution"
+git commit -m "uloha4"
 git push

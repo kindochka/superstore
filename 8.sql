@@ -1,11 +1,19 @@
-SELECT 
-    c.customer_name,
-    COUNT(o.order_id) AS order_count
-FROM customers c
-LEFT JOIN orders o ON c.customer_id = o.customer_id
-GROUP BY c.customer_name;
+CREATE OR REPLACE PROCEDURE get_customer_sales(p_customer_id VARCHAR)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_total_sales NUMERIC;
+BEGIN
+    SELECT SUM(sales)
+    INTO v_total_sales
+    FROM orders
+    WHERE customer_id = p_customer_id;
 
+    RAISE NOTICE 'Zákazník: %, celkový predaj: %', p_customer_id, v_total_sales;
+END;
+$$;
 
+CALL get_customer_sales('C001');
 git add .
-git commit -m "Add task 8 solution"
+git commit -m "uloha8"
 git push

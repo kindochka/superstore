@@ -1,11 +1,23 @@
-SELECT 
-    c.customer_name,
-    SUM(o.sales) AS total_sales
-FROM customers c
-JOIN orders o ON c.customer_id = o.customer_id
-GROUP BY c.customer_name
-HAVING SUM(o.sales) > 2000;
+CREATE OR REPLACE PROCEDURE get_sales_between(
+    start_date DATE,
+    end_date DATE
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    total_sales NUMERIC;
+BEGIN
+    SELECT SUM(sales)
+    INTO total_sales
+    FROM orders
+    WHERE order_date BETWEEN start_date AND end_date;
 
+    RAISE NOTICE 'Začiatok obdobia: %, koniec obdobia: %, celkový predaj: %',
+        start_date, end_date, total_sales;
+END;
+$$;
+
+CALL get_sales_between('2024-01-01', '2024-03-31');
 git add .
-git commit -m "Add task 10 solution"
+git commit -m "uloha10"
 git push

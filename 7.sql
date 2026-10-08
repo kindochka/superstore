@@ -1,11 +1,7 @@
-SELECT 
-    c.region,
-    SUM(o.sales) AS total_sales
-FROM customers c
-JOIN orders o ON c.customer_id = o.customer_id
-GROUP BY c.region;
-
-
+EXPLAIN ANALYZE
+SELECT *
+FROM orders
+WHERE customer_id = 'C001';
 git add .
-git commit -m "Add task 7 solution"
+git commit -m "uloha7"
 git push

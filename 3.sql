@@ -1,13 +1,15 @@
-SELECT 
-    o.order_id,
-    c.customer_name,
-    p.category,
-    o.sales
-FROM orders o
-JOIN customers c ON o.customer_id = c.customer_id
-JOIN products p ON o.product_id = p.product_id;
+CREATE OR REPLACE VIEW analyst_orders AS
+SELECT
+    order_id,
+    customer_id,
+    product_id,
+    sales,
+    quantity,
+    discount
+FROM orders;
 
-
+SELECT *
+FROM analyst_orders;
 git add .
-git commit -m "Add task 3 solution"
+git commit -m "uloha3"
 git push

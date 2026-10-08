@@ -1,11 +1,18 @@
-SELECT 
-    p.category,
-    AVG(o.discount) AS avg_discount
-FROM products p
-JOIN orders o ON p.product_id = o.product_id
-GROUP BY p.category;
+CREATE OR REPLACE PROCEDURE apply_regional_discount(region_name VARCHAR, discount_rate NUMERIC)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    UPDATE orders o
+    SET sales = o.sales * (1 - discount_rate)
+    FROM customers c
+    WHERE o.customer_id = c.customer_id
+      AND c.region = region_name;
 
+    RAISE NOTICE 'Zľava % bola aplikovaná pre región %', discount_rate, region_name;
+END;
+$$;
 
+CALL apply_regional_discount('West', 0.10);
 git add .
-git commit -m "Add task 9 solution"
+git commit -m "uloha9"
 git push
